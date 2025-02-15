@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trintech CSR Portal</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #1e3c72, #2a5298);
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            display: inline-block;
+            width: 50%;
+        }
+        h1 {
+            color: #f0c419;
+            font-size: 28px;
+        }
+        input[type="file"] {
+            display: block;
+            margin: 15px auto;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background: white;
+            color: black;
+        }
+        button {
+            background: #f0c419;
+            color: black;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #ffeb3b;
+        }
+        .info-box {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: left;
+            margin-top: 20px;
+        }
+        code {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+            display: block;
+            border-radius: 5px;
+            color: #f0c419;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Welcome to Trintech CSR Portal</h1>
+        <p>Generate and sign your SSL certificates easily.</p>
+
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <label>Select CSR File:</label>
+            <input type="file" name="csr" required>
+
+            <label>Select Configuration File (req.conf):</label>
+            <input type="file" name="config" required>
+
+            <button type="submit">Upload & Sign</button>
+        </form>
+
+        <div class="info-box">
+            <h2>📌 How to Generate a Key & CSR</h2>
+            <p>Run the following commands before uploading:</p>
+            <code>openssl genrsa -out intermediateCA.key 4096</code>
+            <code>openssl req -new -key intermediateCA.key -out intermediateCA.csr -config lower_trintech.conf</code>
+        </div>
+
+        <div class="info-box">
+            <h2>📄 Example req.conf File</h2>
+            <code>
+[req]<br>
+default_bits = 2048<br>
+prompt = no<br>
+default_md = sha256<br>
+distinguished_name = req_distinguished_name<br>
+req_extensions = req_ext<br><br>
+
+[req_distinguished_name]<br>
+C = US<br>
+ST = Texas<br>
+L = Plano<br>
+O = Trintech<br>
+OU = IT Department<br>
+CN = *.lower.trintech.host<br><br>
+
+[req_ext]<br>
+subjectAltName = @alt_names<br><br>
+
+[alt_names]<br>
+DNS.1 = *.lower.trintech.host<br>
+DNS.2 = lower.trintech.host
+            </code>
+        </div>
+    </div>
+
+</body>
+</html>
