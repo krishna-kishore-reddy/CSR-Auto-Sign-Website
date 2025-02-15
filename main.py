@@ -47,7 +47,8 @@ def upload_csr():
         "-out", signed_cert_path,
         "-days", "365",
         "-sha256",
-        "-extfile", config_path
+        "-extfile", config_path,
+        "-extensions" req-ext
     ]
 
     try:
