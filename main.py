@@ -48,7 +48,7 @@ def upload_csr():
         "-days", "365",
         "-sha256",
         "-extfile", config_path,
-        "-extensions" req_ext
+        "-extensions", req_ext
     ]
 
     try:
